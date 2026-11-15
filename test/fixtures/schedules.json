@@ -1,0 +1,344 @@
+[
+  {
+    "id": 418786,
+    "airingAt": 1793973600,
+    "episode": 6,
+    "mediaId": 195516
+  },
+  {
+    "id": 409445,
+    "airingAt": 1794036600,
+    "episode": 1360,
+    "mediaId": 966
+  },
+  {
+    "id": 418787,
+    "airingAt": 1794578400,
+    "episode": 7,
+    "mediaId": 195516
+  },
+  {
+    "id": 409446,
+    "airingAt": 1794641400,
+    "episode": 1361,
+    "mediaId": 966
+  },
+  {
+    "id": 418788,
+    "airingAt": 1795183200,
+    "episode": 8,
+    "mediaId": 195516
+  },
+  {
+    "id": 409447,
+    "airingAt": 1795246200,
+    "episode": 1362,
+    "mediaId": 966
+  },
+  {
+    "id": 418789,
+    "airingAt": 1795788000,
+    "episode": 9,
+    "mediaId": 195516
+  },
+  {
+    "id": 409448,
+    "airingAt": 1795851000,
+    "episode": 1363,
+    "mediaId": 966
+  },
+  {
+    "id": 418790,
+    "airingAt": 1796392800,
+    "episode": 10,
+    "mediaId": 195516
+  },
+  {
+    "id": 409449,
+    "airingAt": 1796455800,
+    "episode": 1364,
+    "mediaId": 966
+  },
+  {
+    "id": 418791,
+    "airingAt": 1796997600,
+    "episode": 11,
+    "mediaId": 195516
+  },
+  {
+    "id": 409450,
+    "airingAt": 1797060600,
+    "episode": 1365,
+    "mediaId": 966
+  },
+  {
+    "id": 418792,
+    "airingAt": 1797602400,
+    "episode": 12,
+    "mediaId": 195516
+  },
+  {
+    "id": 409451,
+    "airingAt": 1797665400,
+    "episode": 1366,
+    "mediaId": 966
+  },
+  {
+    "id": 409452,
+    "airingAt": 1798270200,
+    "episode": 1367,
+    "mediaId": 966
+  },
+  {
+    "id": 409453,
+    "airingAt": 1798875000,
+    "episode": 1368,
+    "mediaId": 966
+  },
+  {
+    "id": 409454,
+    "airingAt": 1799479800,
+    "episode": 1369,
+    "mediaId": 966
+  },
+  {
+    "id": 409455,
+    "airingAt": 1800084600,
+    "episode": 1370,
+    "mediaId": 966
+  },
+  {
+    "id": 409456,
+    "airingAt": 1800689400,
+    "episode": 1371,
+    "mediaId": 966
+  },
+  {
+    "id": 409457,
+    "airingAt": 1801294200,
+    "episode": 1372,
+    "mediaId": 966
+  },
+  {
+    "id": 409458,
+    "airingAt": 1801899000,
+    "episode": 1373,
+    "mediaId": 966
+  },
+  {
+    "id": 409459,
+    "airingAt": 1802503800,
+    "episode": 1374,
+    "mediaId": 966
+  },
+  {
+    "id": 409460,
+    "airingAt": 1803108600,
+    "episode": 1375,
+    "mediaId": 966
+  },
+  {
+    "id": 409461,
+    "airingAt": 1803713400,
+    "episode": 1376,
+    "mediaId": 966
+  },
+  {
+    "id": 409462,
+    "airingAt": 1804318200,
+    "episode": 1377,
+    "mediaId": 966
+  },
+  {
+    "id": 409463,
+    "airingAt": 1804923000,
+    "episode": 1378,
+    "mediaId": 966
+  },
+  {
+    "id": 409464,
+    "airingAt": 1805527800,
+    "episode": 1379,
+    "mediaId": 966
+  },
+  {
+    "id": 409465,
+    "airingAt": 1806132600,
+    "episode": 1380,
+    "mediaId": 966
+  },
+  {
+    "id": 409466,
+    "airingAt": 1806737400,
+    "episode": 1381,
+    "mediaId": 966
+  },
+  {
+    "id": 409467,
+    "airingAt": 1807342200,
+    "episode": 1382,
+    "mediaId": 966
+  },
+  {
+    "id": 409468,
+    "airingAt": 1807947000,
+    "episode": 1383,
+    "mediaId": 966
+  },
+  {
+    "id": 409469,
+    "airingAt": 1808551800,
+    "episode": 1384,
+    "mediaId": 966
+  },
+  {
+    "id": 409470,
+    "airingAt": 1809156600,
+    "episode": 1385,
+    "mediaId": 966
+  },
+  {
+    "id": 409471,
+    "airingAt": 1809761400,
+    "episode": 1386,
+    "mediaId": 966
+  },
+  {
+    "id": 409472,
+    "airingAt": 1810366200,
+    "episode": 1387,
+    "mediaId": 966
+  },
+  {
+    "id": 409473,
+    "airingAt": 1810971000,
+    "episode": 1388,
+    "mediaId": 966
+  },
+  {
+    "id": 409474,
+    "airingAt": 1811575800,
+    "episode": 1389,
+    "mediaId": 966
+  },
+  {
+    "id": 409475,
+    "airingAt": 1812180600,
+    "episode": 1390,
+    "mediaId": 966
+  },
+  {
+    "id": 409476,
+    "airingAt": 1812785400,
+    "episode": 1391,
+    "mediaId": 966
+  },
+  {
+    "id": 409477,
+    "airingAt": 1813390200,
+    "episode": 1392,
+    "mediaId": 966
+  },
+  {
+    "id": 409478,
+    "airingAt": 1813995000,
+    "episode": 1393,
+    "mediaId": 966
+  },
+  {
+    "id": 409479,
+    "airingAt": 1814599800,
+    "episode": 1394,
+    "mediaId": 966
+  },
+  {
+    "id": 409480,
+    "airingAt": 1815204600,
+    "episode": 1395,
+    "mediaId": 966
+  },
+  {
+    "id": 409481,
+    "airingAt": 1815809400,
+    "episode": 1396,
+    "mediaId": 966
+  },
+  {
+    "id": 409482,
+    "airingAt": 1816414200,
+    "episode": 1397,
+    "mediaId": 966
+  },
+  {
+    "id": 409483,
+    "airingAt": 1817019000,
+    "episode": 1398,
+    "mediaId": 966
+  },
+  {
+    "id": 409484,
+    "airingAt": 1817623800,
+    "episode": 1399,
+    "mediaId": 966
+  },
+  {
+    "id": 409485,
+    "airingAt": 1818228600,
+    "episode": 1400,
+    "mediaId": 966
+  },
+  {
+    "id": 409486,
+    "airingAt": 1818833400,
+    "episode": 1401,
+    "mediaId": 966
+  },
+  {
+    "id": 409487,
+    "airingAt": 1819438200,
+    "episode": 1402,
+    "mediaId": 966
+  },
+  {
+    "id": 409488,
+    "airingAt": 1820043000,
+    "episode": 1403,
+    "mediaId": 966
+  },
+  {
+    "id": 409489,
+    "airingAt": 1820647800,
+    "episode": 1404,
+    "mediaId": 966
+  },
+  {
+    "id": 409490,
+    "airingAt": 1821252600,
+    "episode": 1405,
+    "mediaId": 966
+  },
+  {
+    "id": 409491,
+    "airingAt": 1821857400,
+    "episode": 1406,
+    "mediaId": 966
+  },
+  {
+    "id": 409492,
+    "airingAt": 1822462200,
+    "episode": 1407,
+    "mediaId": 966
+  },
+  {
+    "id": 409493,
+    "airingAt": 1823067000,
+    "episode": 1408,
+    "mediaId": 966
+  },
+  {
+    "id": 409494,
+    "airingAt": 1823671800,
+    "episode": 1409,
+    "mediaId": 966
+  }
+]

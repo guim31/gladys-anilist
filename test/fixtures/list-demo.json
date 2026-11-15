@@ -1,0 +1,362 @@
+{
+  "user": {
+    "id": 1,
+    "name": "demo_viewer"
+  },
+  "lists": [
+    {
+      "status": "CURRENT",
+      "entries": [
+        {
+          "status": "CURRENT",
+          "progress": 10,
+          "media": {
+            "id": 172463,
+            "siteUrl": "https://anilist.co/anime/172463",
+            "status": "FINISHED",
+            "format": "TV",
+            "episodes": 12,
+            "duration": 24,
+            "title": {
+              "romaji": "Jujutsu Kaisen: Shimetsu Kaiyuu - Zenpen",
+              "english": "JUJUTSU KAISEN Season 3: The Culling Game Part 1",
+              "native": "呪術廻戦 死滅回游 前編"
+            },
+            "startDate": {
+              "year": 2026,
+              "month": 1,
+              "day": 9
+            },
+            "endDate": {
+              "year": 2026,
+              "month": 3,
+              "day": 27
+            },
+            "nextAiringEpisode": null
+          }
+        },
+        {
+          "status": "CURRENT",
+          "progress": 9,
+          "media": {
+            "id": 159831,
+            "siteUrl": "https://anilist.co/anime/159831",
+            "status": "FINISHED",
+            "format": "TV",
+            "episodes": 12,
+            "duration": 24,
+            "title": {
+              "romaji": "Zom 100: Zombie ni Naru Made ni Shitai 100 no Koto",
+              "english": "Zom 100: Bucket List of the Dead",
+              "native": "ゾン100～ゾンビになるまでにしたい100のこと～"
+            },
+            "startDate": {
+              "year": 2023,
+              "month": 7,
+              "day": 9
+            },
+            "endDate": {
+              "year": 2023,
+              "month": 12,
+              "day": 26
+            },
+            "nextAiringEpisode": null
+          }
+        },
+        {
+          "status": "CURRENT",
+          "progress": 2,
+          "media": {
+            "id": 108430,
+            "siteUrl": "https://anilist.co/anime/108430",
+            "status": "FINISHED",
+            "format": "TV",
+            "episodes": 11,
+            "duration": 23,
+            "title": {
+              "romaji": "Given",
+              "english": "given",
+              "native": "ギヴン"
+            },
+            "startDate": {
+              "year": 2019,
+              "month": 7,
+              "day": 12
+            },
+            "endDate": {
+              "year": 2019,
+              "month": 9,
+              "day": 20
+            },
+            "nextAiringEpisode": null
+          }
+        },
+        {
+          "status": "CURRENT",
+          "progress": 6,
+          "media": {
+            "id": 966,
+            "siteUrl": "https://anilist.co/anime/966",
+            "status": "RELEASING",
+            "format": "TV",
+            "episodes": null,
+            "duration": 21,
+            "title": {
+              "romaji": "Crayon Shin-chan",
+              "english": "Shin Chan",
+              "native": "クレヨンしんちゃん"
+            },
+            "startDate": {
+              "year": 1992,
+              "month": 4,
+              "day": 13
+            },
+            "endDate": {
+              "year": null,
+              "month": null,
+              "day": null
+            },
+            "nextAiringEpisode": {
+              "id": 409447,
+              "airingAt": 1795246200,
+              "episode": 1362
+            }
+          }
+        },
+        {
+          "status": "CURRENT",
+          "progress": 19,
+          "media": {
+            "id": 20474,
+            "siteUrl": "https://anilist.co/anime/20474",
+            "status": "FINISHED",
+            "format": "TV",
+            "episodes": 24,
+            "duration": 24,
+            "title": {
+              "romaji": "JoJo no Kimyou na Bouken: Stardust Crusaders",
+              "english": "JoJo's Bizarre Adventure: Stardust Crusaders",
+              "native": "ジョジョの奇妙な冒険 スターダストクルセイダース"
+            },
+            "startDate": {
+              "year": 2014,
+              "month": 4,
+              "day": 5
+            },
+            "endDate": {
+              "year": 2014,
+              "month": 9,
+              "day": 13
+            },
+            "nextAiringEpisode": null
+          }
+        }
+      ]
+    },
+    {
+      "status": "PLANNING",
+      "entries": [
+        {
+          "status": "PLANNING",
+          "progress": 0,
+          "media": {
+            "id": 14227,
+            "siteUrl": "https://anilist.co/anime/14227",
+            "status": "FINISHED",
+            "format": "TV",
+            "episodes": 13,
+            "duration": 24,
+            "title": {
+              "romaji": "Tonari no Kaibutsu-kun",
+              "english": "My Little Monster",
+              "native": "となりの怪物くん"
+            },
+            "startDate": {
+              "year": 2012,
+              "month": 10,
+              "day": 2
+            },
+            "endDate": {
+              "year": 2012,
+              "month": 12,
+              "day": 25
+            },
+            "nextAiringEpisode": null
+          }
+        },
+        {
+          "status": "PLANNING",
+          "progress": 0,
+          "media": {
+            "id": 153930,
+            "siteUrl": "https://anilist.co/anime/153930",
+            "status": "FINISHED",
+            "format": "ONA",
+            "episodes": 12,
+            "duration": 26,
+            "title": {
+              "romaji": "Romantic Killer",
+              "english": "Romantic Killer",
+              "native": "ロマンティック・キラー"
+            },
+            "startDate": {
+              "year": 2022,
+              "month": 10,
+              "day": 27
+            },
+            "endDate": {
+              "year": 2022,
+              "month": 10,
+              "day": 27
+            },
+            "nextAiringEpisode": null
+          }
+        },
+        {
+          "status": "PLANNING",
+          "progress": 0,
+          "media": {
+            "id": 120377,
+            "siteUrl": "https://anilist.co/anime/120377",
+            "status": "FINISHED",
+            "format": "ONA",
+            "episodes": 10,
+            "duration": 24,
+            "title": {
+              "romaji": "Cyberpunk: Edgerunners",
+              "english": "Cyberpunk: Edgerunners",
+              "native": "サイバーパンク エッジランナーズ"
+            },
+            "startDate": {
+              "year": 2022,
+              "month": 9,
+              "day": 13
+            },
+            "endDate": {
+              "year": 2022,
+              "month": 9,
+              "day": 13
+            },
+            "nextAiringEpisode": null
+          }
+        },
+        {
+          "status": "PLANNING",
+          "progress": 0,
+          "media": {
+            "id": 173172,
+            "siteUrl": "https://anilist.co/anime/173172",
+            "status": "FINISHED",
+            "format": "ONA",
+            "episodes": 11,
+            "duration": 25,
+            "title": {
+              "romaji": "Dorohedoro Season 2",
+              "english": "Dorohedoro Season 2",
+              "native": "ドロヘドロ Season 2"
+            },
+            "startDate": {
+              "year": 2026,
+              "month": 4,
+              "day": 1
+            },
+            "endDate": {
+              "year": 2026,
+              "month": 5,
+              "day": 27
+            },
+            "nextAiringEpisode": null
+          }
+        },
+        {
+          "status": "PLANNING",
+          "progress": 0,
+          "media": {
+            "id": 21709,
+            "siteUrl": "https://anilist.co/anime/21709",
+            "status": "FINISHED",
+            "format": "TV",
+            "episodes": 12,
+            "duration": 24,
+            "title": {
+              "romaji": "Yuuri!!! on ICE",
+              "english": "Yuri!!! on ICE",
+              "native": "ユーリ!!! on ICE"
+            },
+            "startDate": {
+              "year": 2016,
+              "month": 10,
+              "day": 6
+            },
+            "endDate": {
+              "year": 2016,
+              "month": 12,
+              "day": 22
+            },
+            "nextAiringEpisode": null
+          }
+        },
+        {
+          "status": "PLANNING",
+          "progress": 0,
+          "media": {
+            "id": 195516,
+            "siteUrl": "https://anilist.co/anime/195516",
+            "status": "RELEASING",
+            "format": "TV",
+            "episodes": 12,
+            "duration": 24,
+            "title": {
+              "romaji": "Kusuriya no Hitorigoto 3rd Season",
+              "english": "The Apothecary Diaries Season 3",
+              "native": "薬屋のひとりごと 第3期"
+            },
+            "startDate": {
+              "year": 2026,
+              "month": 10,
+              "day": 2
+            },
+            "endDate": {
+              "year": null,
+              "month": null,
+              "day": null
+            },
+            "nextAiringEpisode": {
+              "id": 418788,
+              "airingAt": 1795183200,
+              "episode": 8
+            }
+          }
+        },
+        {
+          "status": "PLANNING",
+          "progress": 0,
+          "media": {
+            "id": 209939,
+            "siteUrl": "https://anilist.co/anime/209939",
+            "status": "NOT_YET_RELEASED",
+            "format": "TV",
+            "episodes": null,
+            "duration": null,
+            "title": {
+              "romaji": "Sousou no Frieren 3rd Season",
+              "english": null,
+              "native": "葬送のフリーレン 第3期"
+            },
+            "startDate": {
+              "year": 2027,
+              "month": 10,
+              "day": null
+            },
+            "endDate": {
+              "year": null,
+              "month": null,
+              "day": null
+            },
+            "nextAiringEpisode": null
+          }
+        }
+      ]
+    }
+  ]
+}

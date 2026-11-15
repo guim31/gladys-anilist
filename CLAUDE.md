@@ -9,15 +9,18 @@ A Gladys Assistant **external integration**: a Node.js service (Node 22+, ESM,
 no build step) that runs in its own sandboxed Docker container and talks to
 Gladys through
 [`@gladysassistant/integration-sdk`](https://github.com/GladysAssistant/integration-sdk-js),
-its only runtime dependency. It started from the official JavaScript template.
+its only runtime dependency. It is a `calendar`-type integration (Gladys
+5.2.0+): it reads each user's public AniList list and pushes the airings of
+their anime into the core calendar store, one calendar per user. It started
+from the official JavaScript template.
 
 ## Commands
 
 ```bash
 npm install
 npm test                                  # node --test, the built-in runner
-node --test test/devices.test.js          # one file
-node --test --test-name-pattern "plug"    # tests whose name matches
+node --test test/sync.test.js             # one file
+node --test --test-name-pattern "widget"  # tests whose name matches
 npm run lint                              # ESLint
 npm run format:check                      # Prettier, as the CI runs it
 npm run format                            # Prettier, fix in place
@@ -31,16 +34,21 @@ pushing.
 ## Architecture
 
 ```
-index.js                          SDK wiring only: handlers registered before connect()
-src/devices/index.js              registry of the device blueprints + dispatch helpers
-src/devices/<type>.js             one device type per file (buildDevice, onPoll, onSetValue...)
-src/scenes.js                     scene action handlers (manifest `scene_actions`)
-src/widgets.js                    dashboard widget handlers (manifest `widgets`)
-src/config.js                     DEFAULT_CONFIG (mirrors the manifest defaults) + normalization
-src/weather.js                    example driver (Open-Meteo)
-gladys-assistant-integration.json manifest: name, config_schema, actions, image...
-docs/en.md, docs/fr.md            user documentation, re-hosted by Gladys (mandatory)
+index.js                          SDK wiring only: src/app.js registers the handlers before connect()
+src/app.js                        every SDK handler, the 3 h refresh, the daily slide, the 30 s air-time watcher
+src/syncer.js                     per user: the "Anime" calendar, its window of airings, write limiter
+src/catalog.js                    lists and airings read from AniList, cached (3 h), announcements
+src/anilist.js                    AniList GraphQL client: spaced calls (2.1 s), 429 retry, typed errors
+src/anime.js                      pure: anime/airing normalization, titles, status, which anime may air
+src/config.js                     DEFAULT_CONFIG / DEFAULT_ACCOUNT (mirror the manifest), user name parsing
+src/scenes.js                     scene triggers (AirWatcher, announcements), scene action "next_episode"
+src/widgets.js                    dashboard widget "upcoming_episodes"
+src/i18n.js                       every text of the code, en/fr/de/es, date formatting
+src/time.js                       local-date arithmetic in TZ
+gladys-assistant-integration.json manifest: config_schema, account_schema, actions, scenes, widget
+docs/{en,fr,de,es}.md             user documentation, re-hosted by Gladys (same sections)
 test/                             node --test, against the SDK's fake Gladys (integration-sdk/testing)
+test/helpers/world.js             fake Gladys + AniList replayed from test/fixtures + clock, TZ=Europe/Paris
 .github/scripts/release.mjs       release helpers (manifest bump, changelog), tested in test/
 ```
 
@@ -251,3 +259,38 @@ long, et sur un « Sie »/« Ihr… » de politesse en allemand. Le store exige 
 - Docs `en`, `fr`, `de`, `es` avec les mêmes sections.
 - Chauffe, ouverture, sécurité : ne rien rendre pilotable « comme un thermostat » ou par un assistant
   vocal quand une erreur serait dangereuse (leçon d'OctoPrint).
+
+## AniList (propre à ce dépôt)
+
+- **Type `calendar`**, comme gladys-tvmaze dont il reprend l'architecture : un calendrier « Animes » par
+  utilisateur (`account_schema` : `username`, `statuses`, `title_language`), déclencheurs, action
+  `next_episode` et widget sur les seuls calendriers **partagés**.
+- **API** : `POST https://graphql.anilist.co`, sans clé pour une liste publique. Limite annoncée 90/min,
+  **30/min en pratique** (`X-RateLimit-Limit: 30`) : appels espacés de 2,1 s, un 429 attend `Retry-After`
+  (60 s par défaut) puis réessaie deux fois. Par utilisateur, une requête `MediaListCollection(userName,
+type: ANIME, status_in)` ; puis, pour tous les utilisateurs ensemble, `Page.airingSchedules(mediaId_in,
+airingAt_greater, airingAt_lesser, sort: TIME)` par paquets de 50 ids et pages de 50. Relecture toutes
+  les 3 h ; 10 min de pause pour une liste après un échec.
+- **Réponses réelles** : utilisateur inconnu → HTTP 404 et `errors[0] = { message: "User not found",
+status: 404 }` ; liste vide → `lists: []` ; liste privée → erreur « Private User » (non observée en
+  direct : pas de profil privé connu, traitée par le message). Ces deux cas sont des réponses, pas des
+  pannes : le calendrier est republié vide avec l'explication dans sa description, sans reprise.
+- `airingAt` est un horodatage UNIX de la diffusion japonaise : la conversion dans `TZ` est exacte.
+  `duration` peut manquer (anime pas encore diffusé) : 24 min. `episodes` vaut `null` pour une série longue
+  (Crayon Shin-chan, One Piece) : « Épisode 1362 », sans total.
+- **Séries longues** : AniList date Crayon Shin-chan un an à l'avance (50 épisodes hebdomadaires) ; la
+  fenêtre s'arrête donc à **J+92** (J-14 en arrière). Le prochain épisode au-delà reste connu par
+  `nextAiringEpisode` (widget, action, annonce).
+- **Ne lire que ce qui peut être diffusé** (`mayAir`) : une liste « prévus » compte souvent des centaines
+  d'animes terminés ; seuls ceux en cours, à venir, en pause ou finis depuis moins de 15 jours (`endDate`)
+  coûtent une requête.
+- **Une nouvelle saison est un autre `Media`** sur AniList : « Nouvel épisode annoncé » sert surtout aux
+  animes « prévus » qui reçoivent leur première date, et aux retours de pause. Règle : à la lecture
+  précédente pas de `nextAiringEpisode`, ou celui-ci diffusé et le nouveau 14 jours au moins après. La
+  première lecture après démarrage n'annonce rien.
+- Ids : calendrier `<user>:anime`, épisode `<user>:airing-<id AiringSchedule>`. Une liste lue est mise en
+  cache par (nom en minuscules, statuts) : deux utilisateurs sur la même liste ne coûtent qu'une requête.
+- **Ne pas effacer sur panne** : AniList injoignable sans cache → le calendrier est republié (description)
+  mais pas sa fenêtre d'événements ; reprise à 1 min puis ×2 jusqu'à 1 h.
+- Le cœur ne supprime pas les événements **avant** la fenêtre (élagage par chevauchement) : les épisodes
+  de plus de 14 jours restent dans le calendrier comme historique.
