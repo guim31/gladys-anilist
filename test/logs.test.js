@@ -51,20 +51,17 @@ test('AniList down: one line at the first failure, one when it works again', asy
     await world.app.refresh();
     await world.app.idle();
   }
-  // The cached list is kept: a refresh of a known list does not fail.
-  assert.deepEqual(logs.above(), []);
-  world.app.catalog.lists.clear();
-  for (let i = 0; i < 3; i += 1) {
-    world.clock.now += 3_600_000;
-    await world.app.refresh();
-    await world.app.idle();
-  }
+  // The cached answers are kept (nothing erased), the failure is said once
+  // and retried, at every try.
   const errors = logs.above();
   assert.equal(errors.length, 1);
-  assert.match(errors[0], /Refresh failed: alice: AniList unreachable/);
+  assert.match(errors[0], /Refresh failed: alice: AniList unreachable, previous answers kept/);
   assert.doesNotMatch(errors[0], /token|https?:/i);
+  assert.equal(world.eventsOf('alice').length > 0, true);
   logs.clear();
   api.fail = false;
+  // A list that just failed is not asked again for 10 minutes.
+  world.clock.now += 11 * 60_000;
   await world.app.refresh();
   await world.app.idle();
   assert.equal(logs.above().length, 1);

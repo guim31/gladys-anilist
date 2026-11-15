@@ -194,7 +194,14 @@ export class Syncer {
 
   /** Reads the list and the airings of one user. Never throws. */
   async read(settings, forced) {
-    const result = { items: [], total: 0, listName: '', error: null, unavailable: false };
+    const result = {
+      items: [],
+      total: 0,
+      listName: '',
+      error: null,
+      unavailable: false,
+      stale: false,
+    };
     if (!settings.username) {
       return result;
     }
@@ -209,6 +216,7 @@ export class Syncer {
       result.unavailable = true;
       return result;
     }
+    result.stale = list.stale === true;
     result.listName = list.name;
     result.error = list.error ?? null;
     result.total = list.entries.length;
@@ -218,8 +226,11 @@ export class Syncer {
       const ids = airing.map(({ anime }) => anime.id);
       const toForce = forced ? ids.filter((id) => !forced.anime.has(id)) : [];
       toForce.forEach((id) => forced.anime.add(id));
-      await this.catalog.loadAirings(toForce, { force: true });
-      await this.catalog.loadAirings(ids);
+      const kept = [
+        await this.catalog.loadAirings(toForce, { force: true }),
+        await this.catalog.loadAirings(ids),
+      ];
+      result.stale ||= kept.includes(true);
     } catch (err) {
       logger.debug(`Airings of ${settings.username} not read: ${describe(err)}`);
       result.unavailable = true;
@@ -327,6 +338,11 @@ export class Syncer {
       throw err;
     }
     logger.debug(`${selector}: ${user.items.length} anime, ${list.length} airing(s) published`);
+    // Published from the cache: the known airings are kept, but AniList is
+    // asked again soon (the retry), not in three hours.
+    if (user.stale) {
+      throw new Error('AniList unreachable, previous answers kept');
+    }
   }
 
   /**

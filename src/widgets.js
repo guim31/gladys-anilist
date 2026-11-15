@@ -20,7 +20,7 @@ const truncate = (text, max) => (text.length > max ? `${text.slice(0, max - 1)}â
 /** The titles of the `anime` setting. */
 export function parseAnimeFilter(setting) {
   return String(setting ?? '')
-    .split(/[,;\n]/)
+    .split(/[,\n]/)
     .filter((title) => fold(title));
 }
 

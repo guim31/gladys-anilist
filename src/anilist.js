@@ -21,8 +21,8 @@ const USER_AGENT = 'gladys-anilist (+https://github.com/guim31/gladys-anilist)';
 
 /** AniList's list statuses, as the account setting chooses them. */
 export const LIST_STATUSES = {
-  current: ['CURRENT'],
-  current_planning: ['CURRENT', 'PLANNING'],
+  current: ['CURRENT', 'REPEATING'],
+  current_planning: ['CURRENT', 'REPEATING', 'PLANNING'],
   planning: ['PLANNING'],
 };
 

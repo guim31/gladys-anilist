@@ -216,3 +216,26 @@ test('the client: a 429 waits Retry-After, pages are followed, errors are typed'
     return true;
   });
 });
+
+test('"Check" reads AniList again and counts every anime of the lists', async () => {
+  const world = await createWorld({
+    accounts: [account('alice', 'demo_viewer'), account('bob', 'demo_viewer')],
+  });
+  const calls = world.api.calls.length;
+  const ack = await world.fake.action('check', {});
+  assert.equal(ack.data.message.en, 'AniList read: 12 anime, 2 with a dated next episode.');
+  // Forced, but each list and each anime read once for both users.
+  assert.deepEqual(world.api.calls.slice(calls), [
+    'list demo_viewer',
+    'schedules 966,195516,209939 p1',
+  ]);
+});
+
+test('AniList down with a cache: the old airings stay, and "Check" says it failed', async () => {
+  const api = fakeAniList();
+  const world = await createWorld({ api, accounts: [account('alice', 'demo_viewer', 'en')] });
+  api.fail = true;
+  const ack = await world.fake.action('check', {});
+  assert.equal(ack.data.message.en, 'AniList could not be read. Try again in a few minutes.');
+  assert.equal(world.eventsOf('alice').length, 22);
+});

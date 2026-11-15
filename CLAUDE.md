@@ -292,5 +292,10 @@ status: 404 }` ; liste vide → `lists: []` ; liste privée → erreur « Privat
   cache par (nom en minuscules, statuts) : deux utilisateurs sur la même liste ne coûtent qu'une requête.
 - **Ne pas effacer sur panne** : AniList injoignable sans cache → le calendrier est republié (description)
   mais pas sa fenêtre d'événements ; reprise à 1 min puis ×2 jusqu'à 1 h.
+  Avec un cache, la fenêtre est republiée depuis le cache **puis** la synchronisation échoue (`stale`) :
+  sinon la reprise n'est jamais programmée et la panne dure jusqu'au tour suivant (3 h). Une liste en
+  échec n'est redemandée qu'après 10 min ; « Vérifier » répond « illisible ».
+- « En cours » inclut `REPEATING` (revisionnage). Le filtre du widget sépare par virgules et lignes
+  seulement (`Steins;Gate`).
 - Le cœur ne supprime pas les événements **avant** la fenêtre (élagage par chevauchement) : les épisodes
   de plus de 14 jours restent dans le calendrier comme historique.

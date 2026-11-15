@@ -56,8 +56,9 @@ export class Catalog {
     if (cached && !force && now - cached.fetchedAt < FRESH_MS) {
       return cached;
     }
+    // Just failed: the old list again, said stale so the caller retries.
     if (cached && !force && now - (this.failedAt.get(key) ?? -Infinity) < FAILURE_BACKOFF_MS) {
-      return cached;
+      return { ...cached, stale: true };
     }
     let entry;
     try {
@@ -76,7 +77,7 @@ export class Catalog {
       if (!err?.reason) {
         this.failedAt.set(key, now);
         if (cached) {
-          return cached;
+          return { ...cached, stale: true };
         }
         throw err;
       }
@@ -112,6 +113,7 @@ export class Catalog {
   /**
    * Reads the airings of the anime whose cache is old, in one batch.
    * Throws when AniList cannot be read and one of them has no cache.
+   * @returns {Promise<boolean>} true when the old airings had to be kept
    */
   async loadAirings(ids, { force = false } = {}) {
     const now = this.now();
@@ -120,7 +122,7 @@ export class Catalog {
       return force || !cached || now - cached.fetchedAt >= FRESH_MS;
     });
     if (stale.length === 0) {
-      return;
+      return false;
     }
     const today = localDate(now);
     const from = localTime(addDays(today, -PAST_DAYS), 0);
@@ -132,7 +134,7 @@ export class Catalog {
       if (stale.some((id) => !this.airings.has(id))) {
         throw err;
       }
-      return;
+      return true;
     }
     const byAnime = new Map(stale.map((id) => [id, []]));
     for (const entry of raw) {
@@ -146,6 +148,7 @@ export class Catalog {
       unique.sort((a, b) => a.start - b.start || a.id - b.id);
       this.airings.set(id, { list: unique, fetchedAt: now });
     }
+    return false;
   }
 
   /** The cached airings of an anime, by time. */

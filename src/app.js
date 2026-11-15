@@ -222,17 +222,21 @@ export function registerHandlers(gladys, deps = {}) {
       await publishAnnouncements();
       refreshWidget();
     }
+    // Every anime of the lists read (a list shared by two users counts once),
+    // and the ones with a next episode dated.
+    const lists = new Map();
     const items = new Map();
     for (const user of syncer.users.values()) {
+      if (user.username && !user.error) {
+        lists.set(`${user.username.toLowerCase()}|${user.statuses}`, user.total);
+      }
       for (const item of user.items) {
         items.set(item.anime.id, item);
       }
     }
-    const upcoming = [...items.values()].reduce(
-      (count, item) => count + (nextOf(item, now()) ? 1 : 0),
-      0,
-    );
-    return allLanguages((language) => pick(TEXT, language).check(items.size, upcoming));
+    const total = [...lists.values()].reduce((sum, count) => sum + count, 0);
+    const dated = [...items.values()].filter((item) => nextOf(item, now())).length;
+    return allLanguages((language) => pick(TEXT, language).check(total, dated));
   });
 
   gladys.onSceneAction('next_episode', (fields) =>

@@ -4,8 +4,8 @@ Die nächsten Folgen der Anime deiner [AniList](https://anilist.co)-Liste in Gla
 Person, ein Dashboard-Widget und Szenen-Auslöser. AniList ist kostenlos; eine öffentliche Liste zu
 lesen braucht weder ein Konto auf Seiten von Gladys noch einen API-Schlüssel.
 
-Diese Integration ist nicht mit AniList verbunden. Getestet wurde sie mit der echten AniList-API und dem
-Test-Double von Gladys getestet, noch nicht auf einer echten Gladys-Instanz: Rückmeldungen sind im
+Diese Integration ist nicht mit AniList verbunden. Getestet wurde sie mit der echten AniList-API und
+dem Test-Double von Gladys, noch nicht auf einer echten Gladys-Instanz: Rückmeldungen sind im
 Forum oder auf GitHub willkommen.
 
 ## Was du bekommst
