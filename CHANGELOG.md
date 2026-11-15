@@ -10,6 +10,8 @@ the notes of the version's GitHub Release.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-15
+
 ### Added
 
 - An "Anime" calendar per user, filled from their public AniList list
@@ -26,3 +28,6 @@ the notes of the version's GitHub Release.
 - Dashboard widget "Upcoming episodes".
 - Administrator action "Check".
 - English, French, German and Spanish.
+
+[Unreleased]: https://github.com/guim31/gladys-anilist/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/guim31/gladys-anilist/releases/tag/v1.0.0
