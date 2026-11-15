@@ -1,45 +1,67 @@
 // -----------------------------------------------------------------------------
-// Integration configuration.
-//
-// The configuration is filled in by the user in Gladys, from the `config_schema`
-// declared in `gladys-assistant-integration.json`. The SDK fetches it for you
-// (`gladys.getConfig()`) and notifies you of every change through
-// `gladys.onConfigUpdated()`.
-//
-// This module only provides defaults and normalizes the received object, so the
-// rest of the code never has to deal with `undefined`.
+// Settings. The admin `config_schema` holds what applies to everyone (the
+// language of the scene texts); each user's `account_schema` holds their
+// AniList user name, the statuses followed and the language of the titles.
+// Defaults mirror the manifest (test/manifest.test.js).
 // -----------------------------------------------------------------------------
 
-// Defaults: they MUST stay consistent with the `default` values declared in the
-// `config_schema` of the manifest.
+import { LIST_STATUSES } from './anilist.js';
+import { TITLE_LANGUAGES } from './anime.js';
+
+export const LANGUAGES = ['en', 'fr', 'de', 'es'];
+
 export const DEFAULT_CONFIG = {
-  latitude: 48.8566, // Paris
-  longitude: 2.3522,
-  unit: 'celsius', // 'celsius' | 'fahrenheit'
-  // Seconds between two reads of the polled sensors. Gladys polls at most once
-  // a minute: slower intervals are applied by skipping polls (see
-  // createPoller in src/devices/index.js).
-  poll_frequency: 300,
-  // Reserved key (NOT in config_schema): because the manifest declares both
-  // 'local' and 'cloud' in its `transports` field, Gladys shows a standard
-  // "Prefer the local connection" toggle and sends the user's choice here.
-  // Read-only for the integration; defaults to true.
-  GLADYS_PREFER_LOCAL: true,
+  language: 'fr',
 };
 
-/**
- * Merge the user config with the defaults.
- * @param {Record<string, unknown>} raw config returned by the SDK
- */
+export const DEFAULT_ACCOUNT = {
+  username: '',
+  statuses: 'current_planning',
+  title_language: 'romaji',
+};
+
+/** The admin settings, with defaults for anything missing or unknown. */
 export function normalizeConfig(raw = {}) {
+  const config = { ...DEFAULT_CONFIG };
+  if (LANGUAGES.includes(raw?.language)) {
+    config.language = raw.language;
+  }
+  return config;
+}
+
+/** A supported language, else the fallback. */
+export function languageOf(value, fallback = DEFAULT_CONFIG.language) {
+  const short = String(value ?? '')
+    .slice(0, 2)
+    .toLowerCase();
+  return LANGUAGES.includes(short) ? short : fallback;
+}
+
+/**
+ * The AniList user name of a setting: the name itself, `@name`, or the
+ * address of the profile (`https://anilist.co/user/name/animelist`).
+ * '' when there is none.
+ */
+export function parseUserName(text) {
+  const value = String(text ?? '').trim();
+  const fromUrl = value.match(/anilist\.co\/user\/([^/?#\s]+)/i);
+  let name = fromUrl ? fromUrl[1] : value;
+  try {
+    name = decodeURIComponent(name);
+  } catch {
+    // A stray `%`: the name as typed.
+  }
+  name = name.replace(/^@/, '').trim();
+  return name.slice(0, 50);
+}
+
+/** One user's account settings, with defaults for anything missing or unknown. */
+export function normalizeAccount(raw = {}) {
   return {
-    ...DEFAULT_CONFIG,
-    ...raw,
-    // Force the types: config may arrive as strings from a form.
-    latitude: Number(raw.latitude ?? DEFAULT_CONFIG.latitude),
-    longitude: Number(raw.longitude ?? DEFAULT_CONFIG.longitude),
-    poll_frequency: Number(raw.poll_frequency ?? DEFAULT_CONFIG.poll_frequency),
-    // The preference is a boolean; anything but an explicit false means true.
-    GLADYS_PREFER_LOCAL: raw.GLADYS_PREFER_LOCAL !== false,
+    username: parseUserName(raw?.username),
+    statuses: Object.hasOwn(LIST_STATUSES, raw?.statuses) ? raw.statuses : DEFAULT_ACCOUNT.statuses,
+    title_language: TITLE_LANGUAGES.includes(raw?.title_language)
+      ? raw.title_language
+      : DEFAULT_ACCOUNT.title_language,
   };
 }

@@ -30,6 +30,12 @@ Gladys before reporting a problem.
 
 In scope: the code of this repository and the Docker image it publishes.
 
+The integration stores nothing in `/data` and holds no secret: reading a
+public AniList list needs no account nor key. Each user's AniList user name and
+choices are stored by Gladys with their calendar account. The container only
+calls `https://graphql.anilist.co` (a user's public list, airing schedules) and
+the Gladys host API; it receives nothing from the network.
+
 Out of scope: Gladys Assistant itself (see its
 [security policy](https://github.com/GladysAssistant/Gladys/security/policy)),
-and the third-party services and devices the integration talks to.
+and AniList.

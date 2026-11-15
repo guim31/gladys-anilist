@@ -1,61 +1,115 @@
-# Demo Devices Template
+# AniList
 
-This is the user documentation of the integration. Gladys re-hosts this file
-and shows a permanent **Documentation** link to it in the Configuration screen
-(in the user's language, with English as the fallback) — it is when
-configuring that the user needs it most. Keep the short onboarding hints in
-the `section` blocks of the manifest `config_schema`; put the long
-step-by-step (screenshots, troubleshooting…) here.
+The upcoming episodes of the anime on your [AniList](https://anilist.co) list in Gladys: a calendar per
+user, a dashboard widget and scene triggers. AniList is free; reading a public list needs no account
+on the Gladys side and no API key.
+
+This integration is not affiliated with AniList. It was tested against the real AniList API and the
+test double of Gladys, not yet on a real Gladys instance: feedback welcome on the forum or on GitHub.
 
 ## What you get
 
-Six demo devices show up after installation: a weather station (real data
-from Open-Meteo), a switch, a dimmable light, a smart plug with power
-metering, a motion sensor and a camera.
+- **An "Anime" calendar per user**, in the Gladys calendar: every episode of the anime you watch (and,
+  if you wish, plan to watch) on AniList, from two weeks back to three months ahead, with its episode
+  number (Episode 7/12). The time is the broadcast in Japan converted to the time zone of Gladys
+  (23:00 in Tokyo appears at 15:00 in Paris); each episode lasts its duration and links to its AniList
+  page.
+- **A dashboard widget**, "Upcoming episodes": the coming episodes, then where each anime stands (next
+  episode in 3 days, on hiatus, not aired yet).
+- **Two scene triggers**: a followed anime airs an episode today (in the morning or at its air time),
+  and a new episode is announced for an anime that had none (a first air date, a return from a hiatus).
+- **A scene action**, "Read the next episode": the next episode of an anime, the days left and its
+  status.
+
+The calendar view, the dashboard calendar and the built-in "calendar event is coming" trigger of Gladys
+also work with these calendars once they are shared.
 
 ## Configuration
 
-1. Open the **Configuration** tab of the integration.
-2. Set the **latitude** and **longitude** the demo weather station should
-   observe (they default to Paris), and pick your temperature unit.
-   The **refresh interval** sets how often the weather station and the
-   plug's power are read: every 5 minutes by default, every minute at most.
-3. Save: the devices appear in the **Discovery** tab, ready to be added.
+**Each user** enables the integration on its page, under "My calendars", and fills in:
 
-The **Prefer the local connection** toggle drives the demo plug: it reports
-the channel it actually uses as a badge (local or cloud), with an orange dot
-when it runs degraded (local refused, cloud fallback).
+- **AniList user name**: your name on AniList (`Josh`), or the address of your profile
+  (`https://anilist.co/user/Josh/`). Your list must be **public**: a private profile cannot be read
+  without signing in, and the integration does not sign in.
+- **Anime followed**: "Watching", "Watching and planning" (default) or "Planning". Finished anime cost
+  nothing: only the ones airing, about to air or just over are read.
+- **Language of the titles**: romaji (`Sousou no Frieren`, default), English (`Frieren: Beyond Journey's
+End`) or Japanese (`葬送のフリーレン`). A title missing in that language is replaced by another.
+
+The description of your calendar says whose list was read, how many anime it holds, which ones are
+airing and which ones have no date yet, or why nothing was read (unknown user, private list).
+
+The calendar is **private** at first. **Share** it (the toggle under "My calendars") to see it on the
+dashboard and to use it in scenes: like every Gladys calendar, only shared calendars reach the scenes,
+and a shared calendar is visible to the whole household.
+
+The **administrator** chooses the language of the dates and statuses passed to the scenes. Calendar
+names and descriptions follow the language of each user.
 
 ## Actions
 
-- **Test the weather provider** — performs a live request to Open-Meteo and
-  shows the current temperature and humidity under the button.
-- **Identify a device** — pick one of your devices in the list and it will
-  signal itself (the demo light "blinks" in the logs).
+On the integration page, for the administrator:
+
+- **Check**: reads AniList again now for every user, and says how many anime were read and how many
+  have a dated next episode.
 
 ## Scenes
 
-The integration adds its own cards to the scene editor (Gladys 5.1 or
-later), under the **Integrations** category:
+**Trigger "Episode today"**: a followed anime (on a shared calendar) airs an episode today. The
+**When** filter chooses the moment: **in the morning** (09:00), or **at the air time**. The **Anime**
+filter takes the exact title as shown in the calendar; empty, every anime. Variables: anime, episode
+number, number of episodes (0 when unknown), date and time, air time, AniList page, and the users who
+follow the anime.
 
-- **Motion detected** (trigger) — starts the scene when a demo motion sensor
-  sees something move. Optionally pick the sensor and what moved (person,
-  animal); left empty, any detection matches. The following actions can
-  read what moved with `{{triggerEvent.data.target}}`.
-- **Identify a device** (action) — makes the chosen device signal itself.
-  It returns whether the device could signal itself, so the following
-  actions can depend on it.
+**Trigger "New episode announced"**: a followed anime that had no next episode gets one: a first air
+date for an anime not aired yet, a return from a hiatus. An anime dated week after week is not
+announced at every episode. Same variables, plus the days left.
+
+**Action "Read the next episode"**: the next episode of an anime (any of its titles, or the beginning
+of one; empty: the soonest of all), with `found` (1 or 0), episode, number of episodes, date, time,
+`days_left` (-1 without a date), status and last episode aired.
+
+**Examples**:
+
+- _Tell the household the day an episode airs_: trigger "Episode today", when "In the morning", then
+  the Gladys action "Send a message" to the users you choose, its text built with the variables Anime,
+  Episode and Time picked from the list. Nothing is sent until you create such a scene.
+- _Know when the next season is dated_: trigger "New episode announced", then a message with the Anime
+  and Date variables.
+- _Weekly reminder_: a scheduled scene on Sunday evening, the action "Read the next episode", then a
+  message with its Anime and Date outputs.
 
 ## Dashboard
 
-Add the **Demo status** widget to a dashboard: it shows the live
-temperature of the weather station and the power of the office plug, the
-connection the plug currently uses (orange when degraded) and the observed
-location. Its **Identify the light** button makes the demo light signal
-itself.
+Add the **Upcoming episodes** widget to a dashboard. Settings: the anime to show (exact titles; empty,
+every shared anime), the period (7, 14 or 31 days) and whether to show the status of each anime.
+
+## Limits
+
+- **Data**: AniList's airing schedule, which is the **broadcast in Japan**. A simulcast on a streaming
+  platform (Crunchyroll, ADN, Netflix) can come an hour or a few days later; a dub much later.
+- **Refresh**: every 3 hours, and when a user changes their account. AniList allows 30 requests a
+  minute: the integration spaces its requests (one every 2 seconds at most), reads each list once and
+  asks for the episodes of every user together.
+- AniList dates most anime a few weeks ahead. An anime announced for "October 2027" has no episode in
+  the calendar until AniList dates it: the calendar description lists it under "No date yet".
+- The calendar shows three months ahead: an anime dated a year ahead (Crayon Shin-chan) does not fill
+  it with 50 episodes. At most 500 episodes per calendar.
+- Private lists are not supported (no AniList sign-in).
 
 ## Troubleshooting
 
-The integration logs everything it does: check the integration logs from the
-Gladys UI (or `docker logs` on the host) with `LOG_LEVEL=debug` for the full
-detail.
+- **The calendar stays empty**: check its description (Gladys calendar page). "No AniList user named…"
+  means the name is wrong; "private" means your profile must be made public in your AniList settings.
+- **An anime is missing**: check its status on your AniList list (Watching or Planning) and the
+  "Anime followed" setting. A finished anime has no upcoming episode.
+- **No scene fires**: the calendar must be shared, and the anime filter must be the exact title shown
+  in the calendar.
+- **"AniList unreachable"**: the integration keeps the previous episodes and tries again, after a
+  minute then less and less often. Logs: integration page, Logs tab (`LOG_LEVEL=debug` for more
+  detail).
+
+## Credits
+
+Anime and airing data come from the [AniList API](https://docs.anilist.co), used under its terms of use
+(free, non-commercial). Every calendar and event description credits AniList.
